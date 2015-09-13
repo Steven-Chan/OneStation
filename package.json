@@ -1,0 +1,15 @@
+{
+  "name": "OneStation",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "spotify-web-api-node": "^2.1.0",
+    "youtube-dl": "^1.10.5"
+  }
+}
