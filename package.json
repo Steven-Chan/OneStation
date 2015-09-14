@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "node-persist": "0.0.6",
     "youtube-api": "^1.1.0",
     "youtube-dl": "^1.10.5"
   }
