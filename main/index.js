@@ -1,7 +1,6 @@
 var Youtube = require('youtube-api');
-var config = require('./config.js');
+var config = require('../config.js');
 var ipc = require('ipc');
-
 
 function runYouTube(id) {
   var t = document.getElementById('yt_audio_url');
@@ -16,7 +15,7 @@ function pause () {
   ipc.send('pause');
 }
 
-function search () {
+function search (event) {
   var s = document.getElementById('SearchBar');
   var search = s.value;
   s.value = '';

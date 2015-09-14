@@ -1,0 +1,109 @@
+<link rel="import"
+      href="../bower_components/polymer/polymer.html">
+
+<dom-module id="youtube-search-result">
+  
+  <template>
+    <div id="container" class="list-item">
+      <span class="list-item-name">[[item.snippet.title]]</span>
+    </div>
+  </template>
+
+  <style>
+
+  .list-item {
+    cursor: pointer;
+    height: 30px;
+    display: table;
+  }
+
+  .list-item-name {
+    vertical-align: middle;
+    margin-left: 5px;
+    display: table-cell;
+  }
+
+  </style>
+
+  <script>
+
+    Polymer({
+      is: "youtube-search-result",
+    });
+
+
+  </script>
+
+
+</dom-module>
+
+
+<dom-module id="youtube-search">
+
+  <template>
+    <form is="iron-form" id="form" method="get" action="/" onsubmit="this.submitform(event); return false;">
+      <input is="iron-input" id="input" bind-value="{{search}}" placeholder="Search" />
+    </form>
+    <div id="list" class="list-container">
+      <template is="dom-repeat" items="[[result]]">
+
+        <youtube-search-result on-click="itemclick" item="[[item]]"></youtube-search-result>
+        
+      </template>
+    </div>
+  </template>
+
+  <style>
+
+  #input {
+    width: 100%;
+    height: 30px;
+    font-size: large;
+    padding: 0px;
+    display: block;
+  }
+
+  .list-container {
+    margin: 10px;
+  }
+
+
+  </style>
+
+  <script>
+
+    Polymer({
+      is: "youtube-search",
+      
+      ready: function() {
+        var Youtube = require('youtube-api');
+
+        var self = this;
+
+        this.$.form.submitform = function(event) {
+          console.log(event.detail);
+          Youtube.search.list({
+            part: 'snippet',
+            maxResults: 5,
+            type: 'video',
+            fields: 'items(id,snippet)',
+            q: self.$.input.value
+          }, function(err, result) {
+            console.log(err, result);
+            if (err === null) {
+              self.result = result.items;
+            }
+          });
+        }
+
+      },
+
+      itemclick: function(e, detail) {
+        ipc.send('set-videoid', e.currentTarget.item.id.videoId);
+      }
+
+    });
+
+  </script>
+
+</dom-module>

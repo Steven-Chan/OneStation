@@ -2,8 +2,11 @@ var app = require('app');  // Module to control application life.
 var BrowserWindow = require('browser-window');  // Module to create native browser window.
 var ipc = require('ipc');
 var ytdl = require('youtube-dl');
+var storage = require('node-persist');
 
 require('crash-reporter').start();
+
+storage.initSync();
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -27,7 +30,7 @@ app.on('ready', function() {
   mainWindow = new BrowserWindow({width: 800, height: 600});
 
   // and load the index.html of the app.
-  mainWindow.loadUrl('file://' + __dirname + '/index.html');
+  mainWindow.loadUrl('file://' + __dirname + '/main/index.html');
 
   // Open the DevTools.
   mainWindow.openDevTools();
@@ -41,7 +44,7 @@ app.on('ready', function() {
   });
 
   audioWindow = new BrowserWindow({width: 1, height: 1, show: false});
-  audioWindow.loadUrl('file://' + __dirname + '/audio.html');
+  audioWindow.loadUrl('file://' + __dirname + '/audio/index.html');
 
   ipc.on('set-videoid', function(event, arg) {
     console.log('set-videoid: ', arg);
