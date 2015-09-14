@@ -1,40 +1,19 @@
-var ytdl = require('youtube-dl');
 var Youtube = require('youtube-api');
 var config = require('./config.js');
+var ipc = require('ipc');
 
-var audio = null;
-
-var getYoutubeAudioLink = function (link, cb) {
-  // var options = ['--username=', '--password='];
-  var options = [];
-  ytdl.getInfo(link, options, function(err, info) {
-    if (err) return cb(undefined, err);
-    for (var i = info.formats.length - 1; i >= 0; i--) {
-      var format = info.formats[i];
-      if (format.format.indexOf('audio only') !== -1) {
-        if (format.ext === 'webm') {
-          return cb(format.url);
-        }
-      }
-    };
-    return cb(undefined, 'not found');
-  });
-}
 
 function runYouTube(id) {
   var t = document.getElementById('yt_audio_url');
-  getYoutubeAudioLink(id || t.value, function(url, err) {
-    audio.src = url;
-    audio.play();
-  });
+  ipc.send('set-videoid', id || t.value);
 }
 
 function play () {
-  audio.play();
+  ipc.send('play');
 }
 
 function pause () {
-  audio.pause();
+  ipc.send('pause');
 }
 
 function search () {

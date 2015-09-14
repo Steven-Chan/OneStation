@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+  <script type="text/javascript">
+  var ipc = require('ipc');
+  var audio = new Audio();
+
+  ipc.on('set-audiolink', function(url) {
+    audio.src = url;
+    audio.play();
+  });
+
+  ipc.on('play', function () {
+    audio.play();
+  });
+
+  ipc.on('pause', function() {
+    audio.pause();
+  });
+
+  </script>
+</head>
+<body>
+
+</body>
+</html>

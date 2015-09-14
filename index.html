@@ -13,26 +13,14 @@
 </head>
 <body>
 
-  <form onsubmit="search()" action="#">
+  <form onsubmit="search(); return false;">
     <input id="SearchBar" type="text" placeholder="Search" />
   </form>
 
   <div id="SearchResult"></div>
 
-  <table style="width:100%">
-    <tr>
-      <td><button onclick="play()">play</button></td>
-      <td><button onclick="pause()">pause</button></td> 
-      <td></td>
-    </tr>
-    <tr>
-      <td>YouTube</td>
-      <td><textarea id="yt_audio_url"></textarea></td> 
-      <td><button onclick="runYouTube()">run</button></td>
-    </tr>
-  </table>
+  <button onclick="play()">play</button>
+  <button onclick="pause()">pause</button>
 
-
-  <!-- <audio controls='controls' autoplay="autoplay" id="AudioPlayer"></video> -->
 </body>
 </html>

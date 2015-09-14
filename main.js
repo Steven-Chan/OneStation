@@ -1,12 +1,14 @@
 var app = require('app');  // Module to control application life.
 var BrowserWindow = require('browser-window');  // Module to create native browser window.
+var ipc = require('ipc');
+var ytdl = require('youtube-dl');
 
 require('crash-reporter').start();
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 var mainWindow = null;
-var authWindow = null;
+var audioWindow = null;
 
 // Quit when all windows are closed.
 app.on('window-all-closed', function() {
@@ -20,6 +22,7 @@ app.on('window-all-closed', function() {
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 app.on('ready', function() {
+
   // Create the browser window.
   mainWindow = new BrowserWindow({width: 800, height: 600});
 
@@ -36,4 +39,41 @@ app.on('ready', function() {
     // when you should delete the corresponding element.
     mainWindow = null;
   });
+
+  audioWindow = new BrowserWindow({width: 1, height: 1, show: false});
+  audioWindow.loadUrl('file://' + __dirname + '/audio.html');
+
+  ipc.on('set-videoid', function(event, arg) {
+    console.log('set-videoid: ', arg);
+    getYoutubeAudioLink(arg, function(url, err) {
+      audioWindow.webContents.send('set-audiolink', url);
+    });
+  });
+
+  ipc.on('play', function(event, arg) {
+    console.log('play');
+    audioWindow.webContents.send('play');
+  });
+
+  ipc.on('pause', function(event, arg) {
+    console.log('pause');
+    audioWindow.webContents.send('pause');
+  });
 });
+
+var getYoutubeAudioLink = function (link, cb) {
+  // var options = ['--username=', '--password='];
+  var options = [];
+  ytdl.getInfo(link, options, function(err, info) {
+    if (err) return cb(undefined, err);
+    for (var i = info.formats.length - 1; i >= 0; i--) {
+      var format = info.formats[i];
+      if (format.format.indexOf('audio only') !== -1) {
+        if (format.ext === 'webm') {
+          return cb(format.url);
+        }
+      }
+    };
+    return cb(undefined, 'not found');
+  });
+}
