@@ -1,0 +1,23 @@
+{
+  "name": "OneStation",
+  "main": "index.js",
+  "version": "0.0.0",
+  "homepage": "https://github.com/Steven-Chan/OneStation",
+  "authors": [
+    "Steven-Chan <stevenchan@oursky.com>"
+  ],
+  "moduleType": [
+    "node"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.0.0"
+  }
+}
