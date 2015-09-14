@@ -3,10 +3,21 @@
 <head>
   <title></title>
   <script type="text/javascript" src="./index.js"></script>
+  <style type="text/css">
+
+    #SearchBar {
+      width: 100%;
+    }
+
+  </style>
 </head>
 <body>
 
-  <iframe id="SpotifyPlayer" src="https://embed.spotify.com/?uri=spotify:track:3VNWq8rTnQG6fM1eldSpZ0" width="0" height="0" frameborder="0" allowtransparency="true"></iframe>
+  <form onsubmit="search()" action="#">
+    <input id="SearchBar" type="text" placeholder="Search" />
+  </form>
+
+  <div id="SearchResult"></div>
 
   <table style="width:100%">
     <tr>
@@ -18,11 +29,6 @@
       <td>YouTube</td>
       <td><textarea id="yt_audio_url"></textarea></td> 
       <td><button onclick="runYouTube()">run</button></td>
-    </tr>
-    <tr>
-      <td>Spotify</td>
-      <td><textarea id="spotify_audio_url"></textarea></td> 
-      <td><button onclick="runSpotify()">run</button></td>
     </tr>
   </table>
 
