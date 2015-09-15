@@ -3,6 +3,7 @@ var BrowserWindow = require('browser-window');  // Module to create native brows
 var ipc = require('ipc');
 var ytdl = require('youtube-dl');
 var storage = require('node-persist');
+var Menu = require('menu');
 
 require('crash-reporter').start();
 
@@ -62,6 +63,22 @@ app.on('ready', function() {
     console.log('pause');
     audioWindow.webContents.send('pause');
   });
+
+  // app.dock.setMenu()
+  app.dock.setMenu(Menu.buildFromTemplate([
+  {
+    label: 'Play',
+    click: function(item, focusedWindow) {
+      audioWindow.webContents.send('play');
+    }
+  },
+  {
+    label: 'Pause',
+    click: function(item, focusedWindow) {
+      audioWindow.webContents.send('pause');
+    }
+  }
+    ]));
 });
 
 var getYoutubeAudioLink = function (link, cb) {
